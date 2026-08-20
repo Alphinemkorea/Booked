@@ -6,16 +6,16 @@ consistently by application startup code.
 
 from . import book
 from . import lending
-from . import lending_cart_item
-from . import order
-from . import purchase_cart_item
+from . import LendingCartItem
+from . import orders
+from . import PurchaseCartItem
 from . import user
 
 __all__ = [
 	"book",
 	"lending",
-	"lending_cart_item",
-	"order",
-	"purchase_cart_item",
+	"LendingCartItem",
+	"orders",
+	"PurchaseCartItem",
 	"user",
 ]
