@@ -1,7 +1,7 @@
 """Account registration, authentication, and user management routes."""
 
 from flask import Blueprint
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, get_jwt, jwt_required
 from marshmallow import ValidationError
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -20,6 +20,7 @@ def register():
 	payload, failure = json_payload()
 	if failure:
 		return failure
+	payload.pop("role", None)
 	password = payload.pop("password", None)
 	if not password:
 		return error({"password": ["This field is required."]}, 400)
@@ -80,7 +81,7 @@ def update_user(user_id):
 	payload, failure = json_payload()
 	if failure:
 		return failure
-	if "role" in payload and not owner_or_admin(user_id):
+	if "role" in payload and get_jwt().get("role") != "admin":
 		return error("Forbidden", 403)
 	password = payload.pop("password", None)
 	if password is not None:
