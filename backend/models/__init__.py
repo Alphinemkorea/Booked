@@ -1,21 +1,10 @@
-"""Model package wiring.
+"""Expose the database extension and all Booked domain models."""
 
-Importing this package loads all model modules so they can be discovered
-consistently by application startup code.
-"""
+from .db import db
+from .user import User
+from .book import Book
+from .order import Order
+from .lending import Lending
+from .cart import Cart
 
-from . import book
-from . import lending
-from . import LendingCartItem
-from . import orders
-from . import PurchaseCartItem
-from . import user
-
-__all__ = [
-	"book",
-	"lending",
-	"LendingCartItem",
-	"orders",
-	"PurchaseCartItem",
-	"user",
-]
+__all__ = ["db", "User", "Book", "Order", "Lending", "Cart"]
