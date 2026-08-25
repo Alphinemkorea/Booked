@@ -70,6 +70,11 @@ def update_order_status(order_id, status):
 	if order.status != "pending":
 		return error("Only pending orders can be updated", 409)
 	try:
+		if status == "rejected":
+			book = db.session.get(Book, order.book_id)
+			if book is None:
+				return error("Book not found", 404)
+			book.stock_quantity += order.quantity
 		order.status = status
 		db.session.commit()
 		return success(order_schema.dump(order), f"Order {status}")
