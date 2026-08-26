@@ -1,0 +1,1 @@
+export function ReaderPage(){return (<div className="container" style={{padding:48,textAlign:'center'}}><h1 className="serif">ReaderPage</h1><p style={{color:'var(--muted)'}}>Later feature.</p></div>);}
