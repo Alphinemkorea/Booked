@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "snapshots": [
+    {
+      "id": "2026-08-26-09-20-43-uusn1j",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-26T09:20:43.490Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 151,
+      "totalSize": 408330,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    }
+  ]
+}
