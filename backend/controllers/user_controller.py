@@ -116,3 +116,38 @@ def delete_user(user_id):
 		return "", 204
 	except Exception as exception:
 		return rollback_error(exception)
+
+
+@user_bp.put("/users/<int:user_id>/password")
+@jwt_required()
+def change_password(user_id):
+    """Allow a user to change their own password."""
+    if not owner_or_admin(user_id):
+        return error("Forbidden", 403)
+
+    user = db.session.get(User, user_id)
+    if user is None:
+        return error("User not found", 404)
+
+    payload, failure = json_payload()
+    if failure:
+        return failure
+
+    current_password = payload.get("current_password")
+    new_password = payload.get("new_password")
+
+    if not isinstance(current_password, str) or not isinstance(new_password, str):
+        return error("Current password and new password are required", 400)
+
+    if not check_password_hash(user.password_hash, current_password):
+        return error("Current password is incorrect", 401)
+
+    if len(new_password) < 8:
+        return error("New password must be at least 8 characters", 400)
+
+    try:
+        user.password_hash = generate_password_hash(new_password)
+        db.session.commit()
+        return success(None, "Password changed successfully")
+    except Exception as exception:
+        return rollback_error(exception)
