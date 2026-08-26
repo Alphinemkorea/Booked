@@ -1,0 +1,131 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--card) 90%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topMeta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.topMeta strong {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topMeta span { font-size: 0.78rem; }
+.tools { display: flex; align-items: center; gap: 6px; }
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+}
+.themeDot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid;
+  cursor: pointer;
+  padding: 0;
+}
+.loanBanner, .ownBanner {
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.loanBanner { background: var(--warning-soft); color: var(--warning); }
+.ownBanner { background: var(--success-soft); color: var(--success); }
+.page {
+  flex: 1;
+  width: min(680px, calc(100% - 40px));
+  margin: 32px auto 100px;
+  line-height: 1.75;
+}
+.chapterLabel {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.body p {
+  margin: 0 0 1.1em;
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+  background: color-mix(in srgb, var(--card) 94%, transparent);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+}
+.navBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.progress {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.barTrack {
+  width: 100%;
+  max-width: 160px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.barFill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}

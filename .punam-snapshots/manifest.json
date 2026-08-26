@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "snapshots": [
+    {
+      "id": "2026-08-26-08-01-07-8yhfyw",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-26T08:01:07.560Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 108,
+      "totalSize": 267556,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-26-07-12-46-n7r84z",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-26T07:12:46.161Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 96,
+      "totalSize": 251488,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-26-06-55-19-kdpg9a",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-26T06:55:20.002Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 96,
+      "totalSize": 251488,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-10-35-27-rabu48",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T10:35:27.435Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 96,
+      "totalSize": 251488,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-09-32-26-mo1tkz",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T09:32:27.089Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 102,
+      "totalSize": 299986,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-09-18-39-v8jnkg",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T09:18:39.569Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 131,
+      "totalSize": 659466,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-09-07-07-goaqid",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T09:07:07.445Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 102,
+      "totalSize": 284738,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-08-52-58-5y1gr4",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T08:52:58.516Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 103,
+      "totalSize": 286848,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-08-42-56-d07tpm",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T08:42:56.630Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 99,
+      "totalSize": 265927,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-08-31-06-zh521j",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T08:31:06.867Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 97,
+      "totalSize": 255177,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-07-57-32-tv39so",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T07:57:32.940Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 94,
+      "totalSize": 201279,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-24-07-52-20-b4dykl",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-24T07:52:20.333Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 94,
+      "totalSize": 200819,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-20-11-15-58-crzvdm",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-20T11:15:58.530Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 88,
+      "totalSize": 102198,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-20-11-03-23-7nuvwh",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-20T11:03:23.538Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 82,
+      "totalSize": 101526,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-20-10-42-31-bdyzn0",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-20T10:42:31.586Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 82,
+      "totalSize": 95875,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-20-10-22-29-q8wf04",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-20T10:22:29.497Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 24,
+      "totalSize": 95875,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    }
+  ]
+}
