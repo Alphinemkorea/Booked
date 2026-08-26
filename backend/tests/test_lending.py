@@ -209,3 +209,27 @@ def test_cannot_return_requested_lending(client, user_token):
     )
 
     assert response.status_code == 409
+
+
+def test_user_can_change_password(client):
+    login_response = client.post(
+        "/api/login",
+        json={
+            "email": "test@example.com",
+            "password": "password123",
+        },
+    )
+
+    assert login_response.status_code == 200
+    token = login_response.json["data"]["access_token"]
+
+    response = client.put(
+        "/api/users/1/password",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "current_password": "password123",
+            "new_password": "newpassword123",
+        },
+    )
+
+    assert response.status_code == 200
