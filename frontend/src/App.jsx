@@ -1,122 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Navbar } from './components/layout/Navbar.jsx';
+import { SiteFooter } from './components/layout/SiteFooter.jsx';
+import { BottomTabBar } from './components/layout/BottomTabBar.jsx';
+import { ErrorBoundary } from './components/layout/ErrorBoundary.jsx';
+import { RouteEffects } from './components/layout/RouteEffects.jsx';
+import { ToastStack } from './components/shared/ToastStack.jsx';
+import { CartDrawer } from './components/shared/CartDrawer.jsx';
+import { HomePage } from './components/page/HomePage.jsx';
+import { ShopPage } from './components/page/ShopPage.jsx';
+import { LibraryPage } from './components/page/LibraryPage.jsx';
+import { BookDetailPage } from './components/page/BookDetailPage.jsx';
+import { SearchPage } from './components/page/SearchPage.jsx';
+import { CheckoutPage } from './components/page/CheckoutPage.jsx';
+import { ShelfPage } from './components/page/ShelfPage.jsx';
+import { ProfilePage } from './components/page/ProfilePage.jsx';
+import { LoginPage } from './components/page/LoginPage.jsx';
+import { RegisterPage } from './components/page/RegisterPage.jsx';
+import { AdminDashboard } from './components/page/AdminDashboard.jsx';
+import { AdminOverview } from './components/page/AdminOverview.jsx';
+import { AdminBooks } from './components/page/AdminBooks.jsx';
+import { AdminOrders } from './components/page/AdminOrders.jsx';
+import { AdminLending } from './components/page/AdminLending.jsx';
+import { ReaderPage } from './components/page/ReaderPage.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Shell({ children, bare = false }) {
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {!bare && <Navbar />}
+      <ErrorBoundary>
+        <main className="app-main">{children}</main>
+      </ErrorBoundary>
+      {!bare && <SiteFooter />}
+      {!bare && <BottomTabBar />}
+      <CartDrawer />
+      <ToastStack />
     </>
-  )
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <RouteEffects />
+      <Routes>
+        <Route path="/read/:bookId" element={<Shell bare><ReaderPage /></Shell>} />
+        <Route path="/login" element={<Shell bare><LoginPage /></Shell>} />
+        <Route path="/register" element={<Shell bare><RegisterPage /></Shell>} />
+        <Route path="/" element={<Shell><HomePage /></Shell>} />
+        <Route path="/shop" element={<Shell><ShopPage /></Shell>} />
+        <Route path="/library" element={<Shell><LibraryPage /></Shell>} />
+        <Route path="/book/:id" element={<Shell><BookDetailPage /></Shell>} />
+        <Route path="/search" element={<Shell><SearchPage /></Shell>} />
+        <Route path="/checkout/:type" element={<Shell><CheckoutPage /></Shell>} />
+        <Route path="/shelf" element={<Shell><ShelfPage /></Shell>} />
+        <Route path="/profile" element={<Shell><ProfilePage /></Shell>} />
+        <Route path="/admin" element={<Shell bare><AdminDashboard /></Shell>}>
+          <Route index element={<AdminOverview />} />
+          <Route path="books" element={<AdminBooks />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="lending" element={<AdminLending />} />
+        </Route>
+        <Route path="*" element={<Shell><Navigate to="/" replace /></Shell>} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
