@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 const s = createSlice({
-  name: 'cart',
-  initialState: {purchase:[],lending:[],drawer:null},
+  name: 'wishlist',
+  initialState: {ids:[]},
   reducers: {
     setMode(st,a){ if('mode' in st) st.mode=a.payload; },
     openDrawer(st,a){ if('drawer' in st) st.drawer=a.payload; },
