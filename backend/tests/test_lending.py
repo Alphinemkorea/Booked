@@ -11,7 +11,7 @@ def app():
     app = create_app({
         "TESTING": True,
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "JWT_SECRET_KEY": "test-secret-key",
+        "JWT_SECRET_KEY": "test-secret-key-for-booked-tests-32-bytes",
     })
 
     with app.app_context():
@@ -233,3 +233,284 @@ def test_user_can_change_password(client):
     )
 
     assert response.status_code == 200
+
+def test_user_can_update_profile(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+    response = client.put(
+        f"/api/users/{user.id}",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "name": "Updated User",
+            "email": "updated@example.com",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json["data"]["name"] == "Updated User"
+    assert response.json["data"]["email"] == "updated@example.com"
+
+
+def test_user_cannot_update_another_profile(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        other_user = User(
+            name="Other User",
+            email="other@example.com",
+            password_hash=generate_password_hash("password123"),
+            role="user",
+        )
+        db.session.add(other_user)
+        db.session.commit()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        other_user_id = other_user.id
+
+    response = client.put(
+        f"/api/users/{other_user_id}",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "name": "Hacked Name",
+        },
+    )
+
+    assert response.status_code == 403
+
+
+def test_user_cannot_make_themselves_admin(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "role": "admin",
+        },
+    )
+
+    assert response.status_code == 403
+
+
+def test_user_can_delete_their_own_account(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.delete(
+        f"/api/users/{user_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 204
+
+    with app.app_context():
+        assert db.session.get(User, user_id) is None
+
+
+def test_user_cannot_delete_another_account(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        other_user = User(
+            name="Other User",
+            email="other@example.com",
+            password_hash=generate_password_hash("password123"),
+            role="user",
+        )
+
+        db.session.add(other_user)
+        db.session.commit()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        other_user_id = other_user.id
+
+    response = client.delete(
+        f"/api/users/{other_user_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 403
+
+
+def test_profile_requires_authentication(client, app):
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+        user_id = user.id
+
+    response = client.get(f"/api/users/{user_id}")
+
+    assert response.status_code == 401
+
+
+def test_profile_update_rejects_duplicate_email(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        other_user = User(
+            name="Other User",
+            email="other@example.com",
+            password_hash=generate_password_hash("password123"),
+            role="user",
+        )
+
+        db.session.add(other_user)
+        db.session.commit()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "email": "other@example.com",
+        },
+    )
+
+    assert response.status_code == 409
+
+
+def test_change_password_rejects_wrong_current_password(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}/password",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "current_password": "wrong-password",
+            "new_password": "newpassword123",
+        },
+    )
+
+    assert response.status_code == 401
+
+
+def test_change_password_rejects_short_password(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}/password",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "current_password": "password123",
+            "new_password": "short",
+        },
+    )
+
+    assert response.status_code == 400
+
+
+def test_change_password_rejects_missing_fields(client, app):
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}/password",
+        headers={"Authorization": f"Bearer {token}"},
+        json={},
+    )
+
+    assert response.status_code == 400
+
+
+def test_password_is_actually_changed(client, app):
+    from flask_jwt_extended import create_access_token
+    from werkzeug.security import check_password_hash
+
+    with app.app_context():
+        user = User.query.filter_by(email="test@example.com").first()
+
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={"role": user.role},
+        )
+
+        user_id = user.id
+
+    response = client.put(
+        f"/api/users/{user_id}/password",
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "current_password": "password123",
+            "new_password": "newpassword123",
+        },
+    )
+
+    assert response.status_code == 200
+
+    with app.app_context():
+        user = db.session.get(User, user_id)
+        assert check_password_hash(user.password_hash, "newpassword123")
