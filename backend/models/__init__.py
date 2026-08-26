@@ -6,5 +6,14 @@ from .book import Book
 from .order import Order
 from .lending import Lending
 from .cart import Cart
+from .user_settings import UserSettings
 
-__all__ = ["db", "User", "Book", "Order", "Lending", "Cart"]
+__all__ = [
+    "db",
+    "User",
+    "Book",
+    "Order",
+    "Lending",
+    "Cart",
+    "UserSettings",
+]
