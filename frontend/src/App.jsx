@@ -11,6 +11,7 @@ import { ShopPage } from './components/page/ShopPage.jsx';
 import { LibraryPage } from './components/page/LibraryPage.jsx';
 import { BookDetailPage } from './components/page/BookDetailPage.jsx';
 import { SearchPage } from './components/page/SearchPage.jsx';
+import { CartPage } from './components/page/CartPage.jsx';
 import { CheckoutPage } from './components/page/CheckoutPage.jsx';
 import { ShelfPage } from './components/page/ShelfPage.jsx';
 import { ProfilePage } from './components/page/ProfilePage.jsx';
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="/library" element={<Shell><LibraryPage /></Shell>} />
         <Route path="/book/:id" element={<Shell><BookDetailPage /></Shell>} />
         <Route path="/search" element={<Shell><SearchPage /></Shell>} />
+        <Route path="/cart" element={<Shell><CartPage /></Shell>} />
         <Route path="/checkout/:type" element={<Shell><CheckoutPage /></Shell>} />
         <Route path="/shelf" element={<Shell><ShelfPage /></Shell>} />
         <Route path="/profile" element={<Shell><ProfilePage /></Shell>} />

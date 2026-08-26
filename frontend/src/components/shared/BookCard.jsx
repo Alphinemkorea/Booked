@@ -9,7 +9,7 @@ import { setIntent } from '../../library/helpers/intent.js';
 import { SafeImage } from './SafeImage.jsx';
 import styles from '../../styles/components/shared/BookCard.module.css';
 
-export function BookCard({ book, variant = 'shop', style }) {
+export function BookCard({ book, variant = 'shop', style, className }) {
   const dispatch = useAppDispatch();
   const user = useAppSelector((s) => s.auth.user);
   const wish = useAppSelector((s) => s.wishlist.ids);
@@ -40,7 +40,7 @@ export function BookCard({ book, variant = 'shop', style }) {
   };
 
   return (
-    <article className={styles.card} style={style}>
+    <article className={[styles.card, className].filter(Boolean).join(' ')} style={style}>
       <Link to={`/book/${book.id}`} className={styles.coverWrap} onClick={onOpen}>
         <SafeImage src={book.cover} alt={book.title} className={styles.cover} />
         <div className={styles.vignette} />
