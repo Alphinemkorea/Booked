@@ -17,19 +17,19 @@ export function HomePage() {
   const featured = books.find((b) => b.featured) || books[0];
   if (!books.length || !featured) {
     return (
-      <div className={`container ${styles.loading}`}>
+      <div className={styles.loading}>
         <h1 className="serif">Loading catalogue…</h1>
       </div>
     );
   }
 
   const forYou = user?.genres?.length
-    ? [...books].sort((a, b) => (user.genres.includes(b.genre) ? 1 : 0) - (user.genres.includes(a.genre) ? 1 : 0)).slice(0, 6)
-    : books.slice(0, 6);
+    ? [...books].sort((a, b) => (user.genres.includes(b.genre) ? 1 : 0) - (user.genres.includes(a.genre) ? 1 : 0)).slice(0, 4)
+    : books.slice(0, 4);
   const trending = [...books].sort((a, b) => b.rating - a.rating).slice(0, 5);
-  const libraryRail = books.filter((b) => b.forLoan).slice(0, 6);
+  const libraryRail = books.filter((b) => b.forLoan).slice(0, 4);
   const under1000 = books.filter((b) => b.forSale && b.price <= 1000).slice(0, 4);
-  const newArrivals = [...books].sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)).slice(0, 6);
+  const newArrivals = [...books].sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)).slice(0, 4);
   const staff = books.filter((b) => b.featured || b.rating >= 4.8).slice(0, 4);
 
   const myActive = user ? loans.filter((l) => l.status === 'active' && l.userId === user.id) : [];
@@ -57,50 +57,67 @@ export function HomePage() {
   const hello = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div className="page-enter">
-      <section
-        className="hero-cover"
-        style={{ '--hero-image': `url(${featured.cover})` }}
-      >
-        <div className={`container hero-inner`}>
-          {user && (
-            <p className="u-fw-600 u-fs-15" style={{ opacity: 0.9, margin: '0 0 10px' }}>
-              {hello}, {user.name?.split(' ')[0]}
-            </p>
+    <div className={`${styles.page} page-enter`}>
+      <section className={styles.hero}>
+        <div
+          className={styles.heroBg}
+          style={{ backgroundImage: featured.cover ? `url(${featured.cover})` : 'none' }}
+        />
+        <div className={styles.heroShade} />
+        <div className={styles.heroInner}>
+          <div className={styles.heroCopy}>
+            {user && (
+              <p className={styles.greeting}>
+                {hello}, {user.name?.split(' ')[0]}
+              </p>
+            )}
+            <div className={styles.kicker}>
+              <Sparkles size={14} /> Staff pick
+            </div>
+            <h1 className={`serif ${styles.title}`}>{featured.title}</h1>
+            <p className={styles.author}>by {featured.author}</p>
+            <p className={styles.blurb}>{featured.blurb}</p>
+            <div className={styles.actions}>
+              <Link to={`/book/${featured.id}`} className="btn btn-primary">
+                {mode === 'library' ? 'Borrow this book' : `View · ${formatKES(featured.price)}`}
+              </Link>
+              <Link to="/library" className="btn btn-outline btn-ghost-light">
+                Explore library
+              </Link>
+            </div>
+          </div>
+          {featured.cover && (
+            <div className={styles.heroCoverCard}>
+              <img src={featured.cover} alt="" />
+            </div>
           )}
-          <div className="hero-kicker">
-            <Sparkles size={14} /> Staff pick
-          </div>
-          <h1 className={`serif hero-title`}>{featured.title}</h1>
-          <p className="u-fs-15" style={{ opacity: 0.92, margin: '0 0 8px' }}>by {featured.author}</p>
-          <p className="u-fs-15" style={{ opacity: 0.88, margin: '0 0 24px', maxWidth: 460, lineHeight: 1.55 }}>{featured.blurb}</p>
-          <div className="hero-actions">
-            <Link to={`/book/${featured.id}`} className="btn btn-primary">
-              {mode === 'library' ? 'Borrow this book' : `View · ${formatKES(featured.price)}`}
-            </Link>
-            <Link to="/library" className="btn btn-outline btn-ghost-light">Explore library</Link>
-          </div>
         </div>
       </section>
 
-      <div className="container page-pad">
-        <div className="trust-row">
-          <span><Smartphone size={14} /> Instant digital access</span>
-          <span><Zap size={14} /> M-Pesa after approval</span>
-          <span><Shield size={14} /> No shipping · read in browser</span>
+      <div className={styles.body}>
+        <div className={styles.trustRow}>
+          <span>
+            <Smartphone size={16} /> Instant digital access
+          </span>
+          <span>
+            <Zap size={16} /> M-Pesa after approval
+          </span>
+          <span>
+            <Shield size={16} /> No shipping · read in browser
+          </span>
         </div>
 
         {continueList.length > 0 && (
           <section className={styles.continueSection}>
-            <div className="section-head">
-              <h2 className="serif">Continue reading</h2>
-            </div>
+            <h2 className="serif">Continue reading</h2>
             {continueList.map(({ book, pct, chapter }) => (
               <Link key={book.id} to={`/read/${book.id}`} className="continue-card">
                 <img src={book.cover} alt="" />
                 <div className="u-flex-1">
                   <strong className="u-block">{book.title}</strong>
-                  <span className="u-fs-13 u-muted">Chapter {chapter} · {pct}% through sample</span>
+                  <span className="u-fs-13 u-muted">
+                    Chapter {chapter} · {pct}% through sample
+                  </span>
                   <div className="progress-thin" style={{ '--progress': `${pct}%` }}>
                     <i className="progress-bar-fill" style={{ width: `${pct}%` }} />
                   </div>
@@ -123,7 +140,9 @@ export function HomePage() {
                 <div>
                   <strong className="u-fs-14">{item.kind === 'loan' ? 'Pay deposit' : 'Ready to pay'}</strong>
                   <div className="u-fs-13 u-muted">
-                    {item.kind === 'loan' ? `${item.title} · ${formatKES(item.deposit)}` : `${formatKES(item.total)} · M-Pesa`}
+                    {item.kind === 'loan'
+                      ? `${item.title} · ${formatKES(item.deposit)}`
+                      : `${formatKES(item.total)} · M-Pesa`}
                   </div>
                 </div>
               </Link>
@@ -136,7 +155,11 @@ export function HomePage() {
                   <div>
                     <strong className="u-fs-14">{l.title}</strong>
                     <div className="u-fs-13 u-muted">
-                      {days != null ? (days < 0 ? 'Overdue' : `Due in ${days}d · Tap to read`) : 'Active · Tap to read'}
+                      {days != null
+                        ? days < 0
+                          ? 'Overdue'
+                          : `Due in ${days}d · Tap to read`
+                        : 'Active · Tap to read'}
                     </div>
                   </div>
                 </Link>
@@ -155,7 +178,7 @@ export function HomePage() {
         )}
 
         {!user ? (
-          <div className={`card guest-banner`}>
+          <div className="card guest-banner">
             <div>
               <strong className="u-fs-15">Browse free. Sign in to buy, borrow, or save.</strong>
               <p className="u-muted u-fs-14 u-m-0" style={{ marginTop: 6, maxWidth: 420 }}>
@@ -163,22 +186,26 @@ export function HomePage() {
               </p>
             </div>
             <div className="u-flex u-gap-10">
-              <Link to="/register" className="btn btn-primary">Create free account</Link>
-              <Link to="/login" className="btn btn-ghost">Sign in</Link>
+              <Link to="/register" className="btn btn-primary">
+                Create free account
+              </Link>
+              <Link to="/login" className="btn btn-ghost">
+                Sign in
+              </Link>
             </div>
           </div>
         ) : (
-          <div className="quick-grid">
+          <div className={styles.quickGrid}>
             {[
               { to: '/shop', label: 'Shop', sub: 'Own digital', icon: '🛒' },
               { to: '/library', label: 'Library', sub: 'Timed loans', icon: '📚' },
               { to: '/shelf?tab=wishlist', label: 'Wishlist', sub: `${wishIds.length} saved`, icon: '♥' },
               { to: '/shelf', label: 'My Shelf', sub: 'Orders & loans', icon: '📖' },
             ].map((q) => (
-              <Link key={q.to} to={q.to} className={`card quick-card`}>
-                <div className="emoji">{q.icon}</div>
-                <strong>{q.label}</strong>
-                <div className="u-fs-12 u-muted">{q.sub}</div>
+              <Link key={q.to} to={q.to} className={styles.quickCard}>
+                <div className={styles.quickIcon}>{q.icon}</div>
+                <span className={styles.quickLabel}>{q.label}</span>
+                <span className={styles.quickSub}>{q.sub}</span>
               </Link>
             ))}
           </div>
@@ -189,23 +216,30 @@ export function HomePage() {
         )}
 
         <section className={styles.railSection}>
-          <div className="section-head">
+          <div className={styles.sectionHead}>
             <h2 className="serif">For you</h2>
-            <Link to={mode === 'library' ? '/library' : '/shop'} className="link-orange">See all →</Link>
+            <Link to={mode === 'library' ? '/library' : '/shop'} className="link-orange">
+              See all →
+            </Link>
           </div>
-          <div className="book-grid">
+          <div className={styles.bookGrid}>
             {forYou.map((b, i) => (
-              <BookCard key={b.id} book={b} variant={mode === 'library' ? 'library' : 'shop'} className={`delay-${Math.min(i, 9)}`} />
+              <BookCard
+                key={b.id}
+                book={b}
+                variant={mode === 'library' ? 'library' : 'shop'}
+                className={`delay-${Math.min(i, 9)}`}
+              />
             ))}
           </div>
         </section>
 
         <section className={styles.railSection}>
-          <div className="section-head">
+          <div className={styles.sectionHead}>
             <h2 className="serif">Staff picks this week</h2>
           </div>
           <p className={styles.staffNote}>Curated for readers who want substance with their story.</p>
-          <div className="book-grid">
+          <div className={styles.bookGrid}>
             {staff.map((b, i) => (
               <BookCard key={b.id} book={b} className={`delay-${Math.min(i, 9)}`} />
             ))}
@@ -214,11 +248,13 @@ export function HomePage() {
 
         {under1000.length > 0 && (
           <section className={styles.railSection}>
-            <div className="section-head">
+            <div className={styles.sectionHead}>
               <h2 className="serif">Under KES 1,000</h2>
-              <Link to="/shop" className="link-orange">Shop deals →</Link>
+              <Link to="/shop" className="link-orange">
+                Shop deals →
+              </Link>
             </div>
-            <div className="book-grid">
+            <div className={styles.bookGrid}>
               {under1000.map((b, i) => (
                 <BookCard key={b.id} book={b} className={`delay-${Math.min(i, 9)}`} />
               ))}
@@ -227,16 +263,18 @@ export function HomePage() {
         )}
 
         <section className={styles.railSection}>
-          <div className="section-head">
+          <div className={styles.sectionHead}>
             <h2 className="serif">Trending now</h2>
           </div>
           <ol className="rank-list">
             {trending.map((b, i) => (
-              <li key={b.id} className={`card rank-item`}>
+              <li key={b.id} className="card rank-item">
                 <span className="rank-num">{i + 1}</span>
                 <img src={b.cover} alt="" className="thumb-cover-sm" />
                 <div className="u-flex-1">
-                  <Link to={`/book/${b.id}`}><strong>{b.title}</strong></Link>
+                  <Link to={`/book/${b.id}`}>
+                    <strong>{b.title}</strong>
+                  </Link>
                   <div className="u-muted u-fs-13">{b.author}</div>
                 </div>
                 <div className="u-text-right">
@@ -249,11 +287,13 @@ export function HomePage() {
         </section>
 
         <section className={styles.railSection}>
-          <div className="section-head">
+          <div className={styles.sectionHead}>
             <h2 className="serif">New arrivals</h2>
-            <Link to="/shop" className="link-orange">Browse shop →</Link>
+            <Link to="/shop" className="link-orange">
+              Browse shop →
+            </Link>
           </div>
-          <div className="book-grid">
+          <div className={styles.bookGrid}>
             {newArrivals.map((b, i) => (
               <BookCard key={b.id} book={b} className={`delay-${Math.min(i, 9)}`} />
             ))}
@@ -261,9 +301,11 @@ export function HomePage() {
         </section>
 
         <section className={styles.railSection}>
-          <div className={`card library-cta`}>
+          <div className="card library-cta">
             <div>
-              <h2 className="serif" style={{ fontSize: '1.5rem', marginBottom: 6 }}>From the library</h2>
+              <h2 className="serif" style={{ fontSize: '1.5rem', marginBottom: 6 }}>
+                From the library
+              </h2>
               <p className="u-muted u-fs-14 u-m-0" style={{ maxWidth: 400 }}>
                 Digital loan → read in browser → access locks when time ends. Deposit refunded on return.
               </p>
@@ -272,7 +314,7 @@ export function HomePage() {
               Browse library <ArrowRight size={16} />
             </Link>
           </div>
-          <div className="book-grid">
+          <div className={styles.bookGrid} style={{ marginTop: 20 }}>
             {libraryRail.map((b, i) => (
               <BookCard key={b.id} book={b} variant="library" className={`delay-${Math.min(i, 9)}`} />
             ))}
