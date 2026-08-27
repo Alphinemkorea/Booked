@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { BookedLogo } from '../shared/BookedLogo.jsx';
 import styles from '../../styles/components/layout/SiteFooter.module.css';
+import { Twitter } from 'lucide-react';
 
 export function SiteFooter() {
   return (
@@ -31,7 +32,9 @@ export function SiteFooter() {
       <div className={styles.bottom}>
         <span>© {new Date().getFullYear()} BOOKED</span>
         <div className={styles.social}>
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="X">𝕏</a>
+          <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="X">
+  <Twitter />
+</a>
           <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">IG</a>
         </div>
       </div>
