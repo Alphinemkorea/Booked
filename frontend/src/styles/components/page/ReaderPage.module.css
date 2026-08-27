@@ -1,0 +1,154 @@
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--reader-bg, #f7f4f1);
+  color: var(--reader-ink, #1c1917);
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.toolBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.themeDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  border: 1px solid var(--line);
+}
+.themeDotOn { border: 2px solid var(--primary); }
+.banner {
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.bannerSample { background: var(--info-soft); color: var(--info); }
+.bannerLoan { background: var(--info-soft); color: var(--info); }
+.bannerLoanUrgent { background: var(--warning-soft); color: var(--warning); }
+.bannerOwned { background: var(--success-soft); color: var(--success); }
+.tocBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: flex-end;
+}
+.tocPanel {
+  width: min(320px, 100%);
+  height: 100%;
+  border-radius: 0;
+  padding: 20px;
+  overflow: auto;
+  background: var(--card);
+}
+.tocItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 10px;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+.tocItemOn { background: var(--primary-soft); font-weight: 800; }
+.article {
+  flex: 1;
+  width: min(680px, calc(100% - 40px));
+  margin: 32px auto 100px;
+  line-height: 1.75;
+  font-size: var(--reader-font, 18px);
+}
+.chapterLabel {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--reader-muted, #78716c);
+  margin-bottom: 20px;
+}
+.para {
+  margin: 0 0 1.1em;
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+.sampleCta {
+  padding: 20px;
+  margin-top: 32px;
+  text-align: center;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--card) 94%, transparent);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+}
+.navBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.progressMeta {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--reader-muted, #78716c);
+}
+.progressTrack {
+  height: 4px;
+  max-width: 140px;
+  margin: 0 auto 4px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 99px;
+  width: var(--progress, 0%);
+}
+.locked { padding: 48px; text-align: center; }
