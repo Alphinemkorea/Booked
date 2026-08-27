@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BookedLogo } from '../shared/BookedLogo.jsx';
 import styles from '../../styles/components/layout/SiteFooter.module.css';
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export function SiteFooter() {
   return (
