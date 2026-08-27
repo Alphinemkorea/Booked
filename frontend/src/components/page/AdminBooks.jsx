@@ -1,16 +1,42 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../library/storeHooks.js';
-import { addBook, updateBook, removeBook } from '../../library/slices/booksSlice.js';
+import {
+  createBookRemote,
+  updateBookRemote,
+  removeBookRemote,
+  fetchBooks,
+} from '../../library/slices/booksSlice.js';
 import { pushToast } from '../../library/slices/uiSlice.js';
 import { formatKES, GENRES } from '../../library/json/booksData.js';
+import { HAS_API } from '../../library/config.js';
+import styles from '../../styles/components/page/AdminDashboard.module.css';
 
-const empty = { title: '', author: '', genre: 'Fiction', price: 1000, stock: 5, forSale: true, forLoan: true, deposit: 200, loanDays: 14, cover: '', blurb: '', rating: 4.5, pages: 200, isbn: '' };
+const empty = {
+  title: '',
+  author: '',
+  genre: 'Fiction',
+  price: 1000,
+  stock: 5,
+  forSale: true,
+  forLoan: true,
+  deposit: 200,
+  loanDays: 14,
+  cover: '',
+  blurb: '',
+  rating: 4.5,
+  pages: 200,
+  isbn: '',
+};
 
 export function AdminBooks() {
   const books = useAppSelector((s) => s.books.items);
+  const source = useAppSelector((s) => s.books.source);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(empty);
+  const [busy, setBusy] = useState(false);
+  const [editing, setEditing] = useState(null);
+
   const onFile = (e) => {
     const file = e.target.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
@@ -18,68 +44,200 @@ export function AdminBooks() {
     reader.onload = () => setForm((f) => ({ ...f, cover: String(reader.result) }));
     reader.readAsDataURL(file);
   };
-  const submit = (e) => {
+
+  const submit = async (e) => {
     e.preventDefault();
-    if (!form.title.trim() || !form.author.trim()) { dispatch(pushToast({ message: 'Title and author required', tone: 'info' })); return; }
-    const book = { ...form, id: `b-${Date.now().toString(36)}`, price: Number(form.price), stock: Number(form.stock), deposit: Number(form.deposit), loanDays: Number(form.loanDays), pages: Number(form.pages), rating: Number(form.rating), cover: form.cover || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop', uploadedAt: new Date().toISOString().slice(0, 10), reviews: 0 };
-    dispatch(addBook(book));
-    dispatch(pushToast({ message: `Added “${book.title}”` }));
-    setOpen(false); setForm(empty);
+    if (!form.title.trim() || !form.author.trim()) {
+      dispatch(pushToast({ message: 'Title and author required', tone: 'info' }));
+      return;
+    }
+    setBusy(true);
+    const payload = {
+      ...form,
+      price: Number(form.price),
+      stock: Number(form.stock),
+      deposit: Number(form.deposit),
+      loanDays: Number(form.loanDays),
+      pages: Number(form.pages),
+      rating: Number(form.rating),
+      cover:
+        form.cover ||
+        'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop',
+    };
+
+    try {
+      if (editing) {
+        await dispatch(updateBookRemote({ id: editing, ...payload })).unwrap();
+        dispatch(pushToast({ message: `Updated “${payload.title}”`, tone: 'success' }));
+      } else {
+        await dispatch(
+          createBookRemote({
+            ...payload,
+            uploadedAt: new Date().toISOString().slice(0, 10),
+            reviews: 0,
+          })
+        ).unwrap();
+        dispatch(pushToast({ message: `Added “${payload.title}”`, tone: 'success' }));
+      }
+      if (HAS_API) await dispatch(fetchBooks());
+      setOpen(false);
+      setEditing(null);
+      setForm(empty);
+    } catch (err) {
+      dispatch(pushToast({ message: err?.message || String(err) || 'Save failed', tone: 'error' }));
+    } finally {
+      setBusy(false);
+    }
   };
+
+  const onDelete = async (id, title) => {
+    if (!window.confirm(`Delete “${title}”?`)) return;
+    setBusy(true);
+    try {
+      await dispatch(removeBookRemote(id)).unwrap();
+      dispatch(pushToast({ message: 'Book removed', tone: 'success' }));
+      if (HAS_API) await dispatch(fetchBooks());
+    } catch (err) {
+      dispatch(pushToast({ message: err?.message || 'Delete failed', tone: 'error' }));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const bumpStock = async (b, delta) => {
+    try {
+      await dispatch(updateBookRemote({ id: b.id, stock: Math.max(0, (b.stock || 0) + delta) })).unwrap();
+    } catch (err) {
+      dispatch(pushToast({ message: err?.message || 'Stock update failed', tone: 'error' }));
+    }
+  };
+
   return (
     <div>
-      <header style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem' }}>Books</h1>
-        <button type="button" className="btn btn-primary" onClick={() => setOpen(true)}>+ Add book</button>
+      <header className={styles.header}>
+        <div>
+          <h1>Books</h1>
+          <p className="u-muted u-fs-13 u-m-0">
+            {books.length} titles · source: <strong>{source}</strong>
+            {HAS_API ? ' (API)' : ' (local)'}
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            setEditing(null);
+            setForm(empty);
+            setOpen(true);
+          }}
+        >
+          + Add book
+        </button>
       </header>
-      <div className="card" style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-          <thead><tr>{['Cover', 'Title', 'Author', 'Genre', 'Price', 'Stock', 'Actions'].map((h) => <th key={h} style={{ textAlign: 'left', padding: 12, fontSize: 11, textTransform: 'uppercase', color: 'var(--muted)', borderBottom: '1px solid var(--line)' }}>{h}</th>)}</tr></thead>
+
+      <div className={`card ${styles.tableWrap}`}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              {['Cover', 'Title', 'Author', 'Genre', 'Price', 'Stock', 'Actions'].map((h) => (
+                <th key={h}>{h}</th>
+              ))}
+            </tr>
+          </thead>
           <tbody>
             {books.map((b) => (
               <tr key={b.id}>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}><img src={b.cover} alt="" style={{ width: 36, height: 52, objectFit: 'cover', borderRadius: 4 }} /></td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}>{b.title}</td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}>{b.author}</td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}><span className="chip chip-primary">{b.genre}</span></td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }} className="price">{formatKES(b.price)}</td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}>{b.stock}</td>
-                <td style={{ padding: 12, borderBottom: '1px solid var(--line)' }}>
-                  <button type="button" className="link-orange" style={{ border: 'none', background: 'none', cursor: 'pointer' }} onClick={() => dispatch(updateBook({ id: b.id, stock: b.stock + 1 }))}>+Stock</button>
-                  {' · '}
-                  <button type="button" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--danger)', fontWeight: 700 }} onClick={() => { if (window.confirm(`Delete “${b.title}”?`)) { dispatch(removeBook(b.id)); dispatch(pushToast({ message: 'Deleted', tone: 'info' })); } }}>Delete</button>
+                <td>
+                  <img src={b.cover} alt="" className="thumb-cover-sm" />
+                </td>
+                <td>
+                  <strong>{b.title}</strong>
+                </td>
+                <td>{b.author}</td>
+                <td>{b.genre}</td>
+                <td>{formatKES(b.price)}</td>
+                <td>{b.stock}</td>
+                <td>
+                  <div className="u-flex u-gap-8 u-flex-wrap">
+                    <button type="button" className="link-orange" onClick={() => bumpStock(b, 1)}>
+                      +Stock
+                    </button>
+                    <button
+                      type="button"
+                      className="link-orange"
+                      onClick={() => {
+                        setEditing(b.id);
+                        setForm({ ...empty, ...b });
+                        setOpen(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button type="button" className="link-orange" onClick={() => onDelete(b.id, b.title)}>
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {books.length === 0 && <p className="u-muted u-text-center" style={{ padding: 24 }}>No books yet.</p>}
       </div>
+
       {open && (
-        <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(28,25,23,.5)', display: 'grid', placeItems: 'center', zIndex: 300, padding: 16 }}>
-          <form className="card" onClick={(e) => e.stopPropagation()} onSubmit={submit} style={{ width: 'min(520px,100%)', maxHeight: '90vh', overflow: 'auto', padding: 24 }}>
-            <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-sans)' }}>Add book</h3>
-            <label className="label">Cover image</label>
-            <input type="file" accept="image/*" onChange={onFile} />
-            {form.cover && <img src={form.cover} alt="" style={{ width: 80, height: 120, objectFit: 'cover', borderRadius: 8, marginTop: 8 }} />}
-            <label className="label" style={{ marginTop: 12 }}>Or cover URL</label>
-            <input className="input" value={form.cover.startsWith('data:') ? '' : form.cover} onChange={(e) => setForm({ ...form, cover: e.target.value })} placeholder="https://…" />
-            {['title', 'author', 'blurb', 'isbn'].map((k) => (
-              <div key={k} style={{ marginTop: 12 }}><label className="label">{k}</label><input className="input" value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} required={k === 'title' || k === 'author'} /></div>
-            ))}
-            <label className="label" style={{ marginTop: 12 }}>Genre</label>
-            <select className="input" value={form.genre} onChange={(e) => setForm({ ...form, genre: e.target.value })}>{GENRES.map((g) => <option key={g}>{g}</option>)}</select>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
-              {[['price', 'Price'], ['stock', 'Stock'], ['deposit', 'Deposit'], ['loanDays', 'Loan days']].map(([k, lab]) => (
-                <div key={k}><label className="label">{lab}</label><input className="input" type="number" value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} /></div>
-              ))}
-            </div>
-            <label style={{ display: 'flex', gap: 8, marginTop: 14 }}><input type="checkbox" checked={form.forSale} onChange={(e) => setForm({ ...form, forSale: e.target.checked })} /> For sale</label>
-            <label style={{ display: 'flex', gap: 8 }}><input type="checkbox" checked={form.forLoan} onChange={(e) => setForm({ ...form, forLoan: e.target.checked })} /> For loan</label>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 20 }}>
-              <button type="button" className="btn btn-ghost" onClick={() => setOpen(false)}>Cancel</button>
-              <button type="submit" className="btn btn-primary">Save book</button>
-            </div>
-          </form>
+        <div className="overlay" onClick={() => !busy && setOpen(false)} role="presentation">
+          <div className={`card ${styles.formGrid}`} style={{ width: 'min(520px, 100%)', padding: 24, display: 'block' }} onClick={(e) => e.stopPropagation()}>
+            <h2 className="serif" style={{ marginBottom: 16 }}>{editing ? 'Edit book' : 'Add book'}</h2>
+            <form onSubmit={submit} className="u-flex-col u-gap-12">
+              <label className="label">Title</label>
+              <input className="input" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+              <label className="label">Author</label>
+              <input className="input" value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} required />
+              <label className="label">Genre</label>
+              <select className="input" value={form.genre} onChange={(e) => setForm({ ...form, genre: e.target.value })}>
+                {GENRES.map((g) => (
+                  <option key={g} value={g}>{g}</option>
+                ))}
+              </select>
+              <div className="u-flex u-gap-12">
+                <div className="u-flex-1">
+                  <label className="label">Price (KES)</label>
+                  <input className="input" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
+                </div>
+                <div className="u-flex-1">
+                  <label className="label">Stock</label>
+                  <input className="input" type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
+                </div>
+              </div>
+              <div className="u-flex u-gap-12">
+                <div className="u-flex-1">
+                  <label className="label">Deposit</label>
+                  <input className="input" type="number" value={form.deposit} onChange={(e) => setForm({ ...form, deposit: e.target.value })} />
+                </div>
+                <div className="u-flex-1">
+                  <label className="label">Loan days</label>
+                  <input className="input" type="number" value={form.loanDays} onChange={(e) => setForm({ ...form, loanDays: e.target.value })} />
+                </div>
+              </div>
+              <label className="label">Cover image</label>
+              <input type="file" accept="image/*" onChange={onFile} />
+              <label className="label">Blurb</label>
+              <textarea className="input" rows={3} value={form.blurb} onChange={(e) => setForm({ ...form, blurb: e.target.value })} />
+              <div className="u-flex u-gap-10">
+                <label className="u-flex u-items-center u-gap-6">
+                  <input type="checkbox" checked={form.forSale} onChange={(e) => setForm({ ...form, forSale: e.target.checked })} /> For sale
+                </label>
+                <label className="u-flex u-items-center u-gap-6">
+                  <input type="checkbox" checked={form.forLoan} onChange={(e) => setForm({ ...form, forLoan: e.target.checked })} /> For loan
+                </label>
+              </div>
+              <div className="u-flex u-gap-10">
+                <button type="button" className="btn btn-ghost" disabled={busy} onClick={() => setOpen(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Saving…' : editing ? 'Update' : 'Add book'}</button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
