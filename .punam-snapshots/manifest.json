@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "snapshots": [
+    {
+      "id": "2026-08-27-12-29-59-rfzny9",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T12:29:59.717Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 553596,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-12-15-41-eq5pz4",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T12:15:41.805Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 555343,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-11-56-38-cc11qg",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T11:56:38.496Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 555271,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-09-04-31-hphwuv",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T09:04:31.902Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 548554,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-08-43-00-dt9eah",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T08:43:00.635Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 548554,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-08-32-32-1jrlgu",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T08:32:32.797Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 161,
+      "totalSize": 489095,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-08-05-46-slvxqr",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T08:05:46.173Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 548094,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-07-54-50-wp4g3a",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T07:54:50.197Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 542898,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-07-44-37-22o0z6",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T07:44:37.563Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 163,
+      "totalSize": 542656,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-07-33-15-5gxavs",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T07:33:15.588Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 161,
+      "totalSize": 489095,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-07-17-44-lmm1qb",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T07:17:44.933Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 154,
+      "totalSize": 448397,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    },
+    {
+      "id": "2026-08-27-07-14-58-5axsrf",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-27T07:14:58.676Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 154,
+      "totalSize": 448397,
+      "workspaceName": "Booked",
+      "workspacePath": "/home/user/Desktop/Booked"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BookOpen } from 'lucide-react';
 
 export function EmptyState({ icon, title, description, action, secondary }) {
@@ -8,6 +9,15 @@ export function EmptyState({ icon, title, description, action, secondary }) {
       {description && <p>{description}</p>}
       {action}
       {secondary && <div style={{ marginTop: 10 }}>{secondary}</div>}
+=======
+export function EmptyState({ icon, title, description, action }) {
+  return (
+    <div className="empty-state">
+      {icon}
+      {title && <h2 className="serif">{title}</h2>}
+      {description && <p className="u-muted">{description}</p>}
+      {action && <div className="u-flex u-justify-center u-gap-10">{action}</div>}
+>>>>>>> origin/develop
     </div>
   );
 }

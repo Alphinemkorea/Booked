@@ -4,9 +4,17 @@ import { BookCard } from '../shared/BookCard.jsx';
 import { EmptyState } from '../shared/EmptyState.jsx';
 import { useAppSelector } from '../../library/storeHooks.js';
 import { GENRES } from '../../library/json/booksData.js';
+<<<<<<< HEAD
 
 export function CataloguePage({ mode: forcedMode }) {
   const books = useAppSelector((s) => s.books.items);
+=======
+import styles from '../../styles/components/page/ShopPage.module.css';
+import { cn } from '../../library/helpers/cn.js';
+
+export function CataloguePage({ mode: forcedMode }) {
+  const books = useAppSelector((s) => s.books.items) || [];
+>>>>>>> origin/develop
   const globalMode = useAppSelector((s) => s.books.mode);
   const mode = forcedMode || globalMode;
 
@@ -43,6 +51,7 @@ export function CataloguePage({ mode: forcedMode }) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container page-enter" style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,260px) 1fr', gap: 36, padding: '36px 0 56px', alignItems: 'start' }}>
       <aside
         className="card hide-mobile"
@@ -117,18 +126,103 @@ export function CataloguePage({ mode: forcedMode }) {
 
         {/* Mobile genre chips */}
         <div className="hide-desktop" style={{ display: 'flex', gap: 8, overflowX: 'auto', marginBottom: 20, paddingBottom: 4 }}>
+=======
+    <div className={`container page-enter ${styles.layout}`}>
+      <aside className={`card hide-mobile ${styles.aside}`}>
+        <h3 className={styles.asideTitle}>Filters</h3>
+        <div className={styles.genreList}>
+>>>>>>> origin/develop
           {GENRES.map((g) => (
             <button
               key={g}
               type="button"
+<<<<<<< HEAD
               className={`chip ${genres.includes(g) ? 'chip-primary' : ''}`}
               style={{ border: 'none', cursor: 'pointer', flexShrink: 0 }}
+=======
+              className={cn(styles.genreBtn, genres.includes(g) && styles.genreBtnOn)}
+>>>>>>> origin/develop
               onClick={() => toggleGenre(g)}
             >
               {g}
             </button>
           ))}
         </div>
+<<<<<<< HEAD
+=======
+        {mode === 'shop' && (
+          <>
+            <label className={styles.priceLabel} htmlFor="priceMax">Max price · KES {priceMax.toLocaleString()}</label>
+            <input
+              id="priceMax"
+              type="range"
+              min={200}
+              max={3000}
+              step={50}
+              value={priceMax}
+              className="u-w-full"
+              onChange={(e) => { setPriceMax(Number(e.target.value)); setPage(1); }}
+            />
+          </>
+        )}
+        <button type="button" className="btn btn-ghost btn-sm u-w-full" onClick={clearAll}>Clear filters</button>
+      </aside>
+
+      <div>
+        <div className={styles.headRow}>
+          <div>
+            <h1 className="serif">{mode === 'library' ? 'Library' : 'Shop'}</h1>
+            <p className="u-muted u-fs-14 u-m-0">
+              <strong className="u-ink">{filtered.length}</strong> books {mode === 'library' ? 'to borrow' : 'for sale'}
+            </p>
+          </div>
+          <select
+            value={sort}
+            onChange={(e) => { setSort(e.target.value); setPage(1); }}
+            className="input"
+            aria-label="Sort"
+          >
+            <option value="rating">Top rated</option>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price · low to high</option>
+            <option value="price-desc">Price · high to low</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </div>
+
+        {(genres.length > 0 || (mode === 'shop' && priceMax < 2000)) && (
+          <div className={styles.activeFilters}>
+            {genres.map((g) => (
+              <button key={g} type="button" className="filter-chip on" onClick={() => toggleGenre(g)}>
+                {g} <X size={12} />
+              </button>
+            ))}
+            {mode === 'shop' && priceMax < 2000 && (
+              <button type="button" className="filter-chip on" onClick={() => setPriceMax(2000)}>
+                ≤ KES {priceMax.toLocaleString()} <X size={12} />
+              </button>
+            )}
+            <button type="button" className="link-orange" onClick={clearAll}>Clear all</button>
+          </div>
+        )}
+
+        <div className={styles.mobileGenres}>
+          {GENRES.map((g) => (
+            <button
+              key={g}
+              type="button"
+              className={cn('chip', genres.includes(g) && 'chip-primary')}
+              onClick={() => toggleGenre(g)}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
+
+        <p className="meta u-fs-14 u-muted">
+          Showing <strong className="u-ink">{pageItems.length}</strong> of <strong className="u-ink">{filtered.length}</strong>
+        </p>
+>>>>>>> origin/develop
 
         {pageItems.length === 0 ? (
           <EmptyState
@@ -143,18 +237,27 @@ export function CataloguePage({ mode: forcedMode }) {
                 key={b.id}
                 book={b}
                 variant={mode === 'library' ? 'library' : 'shop'}
+<<<<<<< HEAD
                 style={{ animationDelay: `${i * 40}ms` }}
+=======
+                className={`delay-${Math.min(i, 9)}`}
+>>>>>>> origin/develop
               />
             ))}
           </div>
         )}
 
         {totalPages > 1 && (
+<<<<<<< HEAD
           <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 48 }}>
+=======
+          <div className={styles.pager}>
+>>>>>>> origin/develop
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
               <button
                 key={n}
                 type="button"
+<<<<<<< HEAD
                 onClick={() => { setPage(n); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 style={{
                   width: 42,
@@ -166,6 +269,10 @@ export function CataloguePage({ mode: forcedMode }) {
                   background: n === page ? 'var(--primary)' : 'var(--card)',
                   color: n === page ? '#fff' : 'var(--ink)',
                 }}
+=======
+                className={cn(styles.pageBtn, n === page && styles.pageBtnOn)}
+                onClick={() => { setPage(n); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+>>>>>>> origin/develop
               >
                 {n}
               </button>

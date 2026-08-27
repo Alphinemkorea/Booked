@@ -1,0 +1,1 @@
+export function formatKES(n){return `KES ${Number(n||0).toLocaleString("en-KE")}`}
