@@ -1,45 +1,36 @@
-/**
- * Authenticated user API.
- * uploadAvatar: POST multipart → { avatarUrl }
- * Wire VITE_API_URL + Authorization header when backend is live.
- */
-const BASE = import.meta.env.VITE_API_URL || '';
-
-function authHeaders(token) {
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
+import { api } from '../../../library/handlers/apiClient.js';
+import { HAS_API } from '../../../library/config.js';
 
 export const userApi = {
-  async getProfile(token) {
-    if (!BASE) return { ok: false, offline: true };
-    const res = await fetch(`${BASE}/api/users/me`, { headers: authHeaders(token) });
-    return { ok: res.ok, data: await res.json().catch(() => null) };
-  },
-
-  /** Replace local FileReader flow with this when API exists */
-  async uploadAvatar(file, token) {
-    if (!BASE) {
-      // Caller should keep using local data URL fallback
-      return { ok: false, offline: true, message: 'Avatar API not configured' };
+  async getProfile() {
+    if (!HAS_API) return { ok: false, offline: true };
+    try {
+      const data = await api.get('/api/users/me');
+      return { ok: true, data: data?.user || data?.data || data };
+    } catch (e) {
+      return { ok: false, error: e.message };
     }
-    const body = new FormData();
-    body.append('avatar', file);
-    const res = await fetch(`${BASE}/api/users/me/avatar`, {
-      method: 'POST',
-      headers: authHeaders(token),
-      body,
-    });
-    const data = await res.json().catch(() => null);
-    return { ok: res.ok, data };
   },
 
-  async updateProfile(patch, token) {
-    if (!BASE) return { ok: false, offline: true };
-    const res = await fetch(`${BASE}/api/users/me`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
-      body: JSON.stringify(patch),
-    });
-    return { ok: res.ok, data: await res.json().catch(() => null) };
+  async updateProfile(body) {
+    if (!HAS_API) return { ok: false, offline: true };
+    try {
+      const data = await api.patch('/api/users/me', body);
+      return { ok: true, data: data?.user || data?.data || data };
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
+  },
+
+  async uploadAvatar(file) {
+    if (!HAS_API) return { ok: false, offline: true };
+    const form = new FormData();
+    form.append('avatar', file);
+    try {
+      const data = await api.post('/api/users/me/avatar', form);
+      return { ok: true, avatarUrl: data?.avatarUrl || data?.url || data?.avatar || data?.data?.avatarUrl };
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
   },
 };

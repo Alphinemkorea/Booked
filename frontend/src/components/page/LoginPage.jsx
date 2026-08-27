@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../library/storeHooks.js';
-import { attemptLogin, loginSuccess } from '../../library/slices/authSlice.js';
+import { loginWithApi, loginSuccess } from '../../library/slices/authSlice.js';
 import { pushToast } from '../../library/slices/uiSlice.js';
 import { consumeIntent } from '../../library/helpers/intent.js';
 import styles from '../../styles/components/page/AuthPage.module.css';
@@ -40,7 +40,7 @@ export function LoginPage() {
     setError('');
     setLoading(true);
     await new Promise((r) => setTimeout(r, 600));
-    const res = attemptLogin(email, password);
+    const res = await loginWithApi(email, password);
     setLoading(false);
     if (!res.ok) {
       setError(res.error);
@@ -96,7 +96,6 @@ export function LoginPage() {
       setError('Invalid or expired code. Try 123456 for demo.');
       return;
     }
-    const res = attemptLogin(email, 'user123') || attemptLogin(email, 'admin123');
     // Fallback: try to find user by email only for OTP demo
     const users = JSON.parse(localStorage.getItem('bk-users') || '[]');
     const found = users.find((u) => u.email?.toLowerCase() === email.toLowerCase().trim());
