@@ -25,6 +25,7 @@ import { AdminLending } from './components/page/AdminLending.jsx';
 import { AdminLoginPage } from './components/page/AdminLoginPage.jsx';
 import { AdminUsers } from './components/page/AdminUsers.jsx';
 import { ReaderPage } from './components/page/ReaderPage.jsx';
+import { ProtectedRoute } from './app/site/private/authorization/ProtectedRoute.jsx';
 
 function Shell({ children, bare = false }) {
   return (
@@ -51,8 +52,8 @@ export default function App() {
         <Route path="/admin/login" element={<Shell bare><AdminLoginPage /></Shell>} />
         <Route path="/register" element={<Shell bare><RegisterPage /></Shell>} />
         <Route path="/" element={<Shell><HomePage /></Shell>} />
-        <Route path="/shop" element={<Shell><ShopPage /></Shell>} />
-        <Route path="/library" element={<Shell><LibraryPage /></Shell>} />
+        <Route path="/shop" element={<Shell><ProtectedRoute><ShopPage /></ProtectedRoute></Shell>} />
+        <Route path="/library" element={<Shell><ProtectedRoute><LibraryPage /></ProtectedRoute></Shell>} />
         <Route path="/book/:id" element={<Shell><BookDetailPage /></Shell>} />
         <Route path="/search" element={<Shell><SearchPage /></Shell>} />
         <Route path="/cart" element={<Shell><CartPage /></Shell>} />
