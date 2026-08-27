@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BookedLogo } from '../shared/BookedLogo.jsx';
-import { Instagram, Twitter, Mail, MapPin } from 'lucide-react';
+import { Mail, MapPin } from "lucide-react";
 
 export function SiteFooter() {
   return (
