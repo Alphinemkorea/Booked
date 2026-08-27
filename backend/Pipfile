@@ -1,0 +1,63 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "==2.3.3"
+flask-sqlalchemy = "==3.1.1"
+flask-migrate = "==4.0.5"
+flask-cors = "==4.0.0"
+flask-jwt-extended = "==4.5.3"
+flask-bcrypt = "==1.0.1"
+flask-mail = "==0.9.1"
+psycopg2-binary = "==2.9.9"
+sqlalchemy = "==2.0.21"
+alembic = "==1.12.0"
+marshmallow = "==3.20.1"
+marshmallow-sqlalchemy = "==0.29.0"
+email-validator = "==2.0.0"
+python-dotenv = "==1.0.0"
+python-dateutil = "==2.8.2"
+uuid = "==1.30"
+pillow = "==10.0.1"
+flask-restx = "==1.2.0"
+flask-swagger-ui = "==4.11.1"
+pytest = "==7.4.2"
+pytest-cov = "==4.1.0"
+pytest-flask = "==1.2.0"
+factory-boy = "==3.3.0"
+faker = "==19.13.0"
+coverage = "==7.3.1"
+flask-shell-ipython = "==0.4.1"
+
+[dev-packages]
+ipython = "==8.15.0"
+ipdb = "==0.13.13"
+black = "==23.9.1"
+flake8 = "==6.1.0"
+isort = "==5.12.0"
+mypy = "==1.5.1"
+pylint = "==2.17.5"
+pre-commit = "==3.4.0"
+pytest-watch = "==4.2.0"
+pytest-xdist = "==3.3.1"
+pgcli = "==3.5.0"
+
+[requires]
+python_version = "3.11"
+
+[pipenv]
+allow_prereleases = false
+
+[scripts]
+dev = "flask run --debug --host=0.0.0.0 --port=5000"
+test = "pytest -v --cov=backend --cov-report=html"
+test-watch = "ptw"
+lint = "flake8 backend/ && pylint backend/"
+format = "black backend/ && isort backend/"
+migrate = "flask db migrate"
+upgrade = "flask db upgrade"
+downgrade = "flask db downgrade"
+seed = "python -m backend.seed"
+shell = "flask shell"
