@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
@@ -12,6 +13,7 @@ jwt = JWTManager()
 def create_app(test_config=None):
     """Create and configure the Booked Flask application."""
     app = Flask(__name__)
+    CORS(app)
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI=os.getenv("DATABASE_URL", "sqlite:///booked.db"),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
@@ -34,9 +36,3 @@ def create_app(test_config=None):
         return {"message": "Booked API is running!"}
 
     return app
-
-
-app = create_app()
-
-if __name__ == '__main__':
-    app.run(debug=True)
