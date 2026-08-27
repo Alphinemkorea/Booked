@@ -9,11 +9,7 @@ export class ErrorBoundary extends Component {
     return { error };
   }
   componentDidCatch(error, info) {
-<<<<<<< HEAD
     console.error('BOOOKED error:', error, info);
-=======
-    console.error('BOOKED error:', error, info);
->>>>>>> origin/develop
   }
   render() {
     if (this.state.error) {

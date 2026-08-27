@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
 
 export function BookedLogo({ to = '/' }) {
   return (
@@ -12,18 +11,6 @@ export function BookedLogo({ to = '/' }) {
       }}>B</span>
       <span style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.045em', color: 'var(--ink)' }}>
         BO<span style={{ color: 'var(--primary)' }}>OO</span>KED
-=======
-import styles from '../../styles/components/shared/BookedLogo.module.css';
-import { cn } from '../../library/helpers/cn.js';
-
-export function BookedLogo({ className, to = '/' }) {
-  return (
-    <Link to={to} className={cn(styles.logo, className)} aria-label="BOOKED home">
-      <span className={styles.mark} aria-hidden>B</span>
-      <span className={styles.textCol}>
-        <span className={styles.word}>BOOKED</span>
-        <span className={styles.tag}>Digital bookstore</span>
->>>>>>> origin/develop
       </span>
     </Link>
   );

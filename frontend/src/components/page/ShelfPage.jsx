@@ -354,11 +354,7 @@ export function ShelfPage() {
                 ]
               : []
         }
-<<<<<<< HEAD
         accountRef={payTarget?.id || 'BOOOKED'}
-=======
-        accountRef={payTarget?.id || 'BOOKED'}
->>>>>>> origin/develop
         onSuccess={onPaySuccess}
       />
     </div>
