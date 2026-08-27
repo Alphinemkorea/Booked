@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './library/store.js';
 import App from './App.jsx';
 import { ErrorBoundary } from './components/layout/ErrorBoundary.jsx';
+import { AppBootstrap } from './components/provider/AppBootstrap.jsx';
 import './styles/global.css';
 
 try {
@@ -21,7 +22,9 @@ if (!el) {
     <React.StrictMode>
       <ErrorBoundary>
         <Provider store={store}>
-          <App />
+          <AppBootstrap>
+            <App />
+          </AppBootstrap>
         </Provider>
       </ErrorBoundary>
     </React.StrictMode>
