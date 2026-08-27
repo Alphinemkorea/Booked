@@ -31,7 +31,7 @@ export function SiteFooter() {
       <div className={styles.bottom}>
         <span>© {new Date().getFullYear()} BOOKED</span>
         <div className={styles.social}>
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="X">𝕏</a>
+          <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="X">X</a>
           <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">IG</a>
         </div>
       </div>
