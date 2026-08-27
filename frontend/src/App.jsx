@@ -22,6 +22,8 @@ import { AdminOverview } from './components/page/AdminOverview.jsx';
 import { AdminBooks } from './components/page/AdminBooks.jsx';
 import { AdminOrders } from './components/page/AdminOrders.jsx';
 import { AdminLending } from './components/page/AdminLending.jsx';
+import { AdminLoginPage } from './components/page/AdminLoginPage.jsx';
+import { AdminUsers } from './components/page/AdminUsers.jsx';
 import { ReaderPage } from './components/page/ReaderPage.jsx';
 
 function Shell({ children, bare = false }) {
@@ -46,6 +48,7 @@ export default function App() {
       <Routes>
         <Route path="/read/:bookId" element={<Shell bare><ReaderPage /></Shell>} />
         <Route path="/login" element={<Shell bare><LoginPage /></Shell>} />
+        <Route path="/admin/login" element={<Shell bare><AdminLoginPage /></Shell>} />
         <Route path="/register" element={<Shell bare><RegisterPage /></Shell>} />
         <Route path="/" element={<Shell><HomePage /></Shell>} />
         <Route path="/shop" element={<Shell><ShopPage /></Shell>} />
@@ -61,6 +64,7 @@ export default function App() {
           <Route path="books" element={<AdminBooks />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="lending" element={<AdminLending />} />
+          <Route path="users" element={<AdminUsers />} />
         </Route>
         <Route path="*" element={<Shell><Navigate to="/" replace /></Shell>} />
       </Routes>

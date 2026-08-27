@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: 1.4fr repeat(3, 1fr);
   gap: 32px;
-  max-width: var(--max);
+  max-width: none; width: 100%;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -30,7 +30,7 @@
 }
 .col a:hover { color: var(--primary); }
 .bottom {
-  max-width: var(--max);
+  max-width: none; width: 100%;
   margin: 32px auto 0;
   padding: 20px 16px 0;
   border-top: 1px solid var(--line);

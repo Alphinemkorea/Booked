@@ -62,7 +62,7 @@ export function MpesaPaymentModal({
         checkoutRequestId: stk.checkoutRequestId,
       });
     } else {
-      setError('Payment was not completed. If you entered the wrong PIN, try again.');
+      setError(status.error || 'Payment was not completed. If you entered the wrong PIN, try again.');
       setStep('error');
     }
   };

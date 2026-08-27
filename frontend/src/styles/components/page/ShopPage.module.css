@@ -1,9 +1,10 @@
 .layout {
   display: grid;
-  grid-template-columns: minmax(220px, 260px) 1fr;
-  gap: 36px;
-  padding: 36px 0 56px;
+  grid-template-columns: minmax(240px, 280px) 1fr;
+  gap: 28px;
+  padding: 28px 0 56px;
   align-items: start;
+  width: 100%;
 }
 .aside {
   padding: 22px;
@@ -13,25 +14,27 @@
 }
 .asideTitle {
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
   margin: 0 0 14px;
+  font-weight: 800;
 }
 .genreList { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
 .genreBtn {
   text-align: left;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 10px;
   border: none;
   background: transparent;
   cursor: pointer;
   font-weight: 600;
+  font-size: 1.05rem;
   color: var(--ink);
 }
 .genreBtnOn { background: var(--primary-soft); color: var(--primary-deep); }
-.priceLabel { font-size: 13px; font-weight: 700; margin-bottom: 8px; display: block; }
+.priceLabel { font-size: 1rem; font-weight: 700; margin-bottom: 8px; display: block; }
 .headRow {
   display: flex;
   flex-wrap: wrap;
