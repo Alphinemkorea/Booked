@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { load, save } from '../helpers/storage.js';
+import { load, save, remove } from '../helpers/storage.js';
+import { HAS_API } from '../config.js';
+import { authApi } from '../../app/api/public/authApi.js';
 
 const UK = 'bk-users';
 const SK = 'bk-session';
@@ -51,6 +53,7 @@ const slice = createSlice({
     logout(s) {
       s.user = null;
       save(SK, null);
+      try { remove('bk-token'); } catch (_) {}
     },
     registerSuccess(s, a) {
       s.users.push(a.payload.account);
@@ -187,4 +190,30 @@ export function adminSetRole(userId, role, currentAdminId) {
   const next = users.map((u) => (u.id === userId ? { ...u, role } : u));
   persist(next);
   return { ok: true, users: next.map(stripPassword) };
+}
+
+
+/** Prefer backend auth when VITE_API_URL is set */
+export async function loginWithApi(email, password) {
+  if (HAS_API) {
+    const res = await authApi.login(email, password);
+    if (res.ok) return res;
+    // If API explicitly fails auth, don't fall through to local demo users
+    if (res.error && !res.offline) return res;
+  }
+  return attemptLogin(email, password);
+}
+
+export async function registerWithApi({ name, email, password }) {
+  if (HAS_API) {
+    const res = await authApi.register({ name, email, password });
+    if (res.ok) return { ok: true, session: res.user, account: res.user };
+    if (res.error && !res.offline) return res;
+  }
+  return attemptRegister({ name, email, password });
+}
+
+export function logoutRemote() {
+  authApi.logoutLocal();
+  remove('bk-token');
 }

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../library/storeHooks.js';
-import { attemptRegister, registerSuccess } from '../../library/slices/authSlice.js';
+import { registerWithApi, registerSuccess } from '../../library/slices/authSlice.js';
 import { pushToast } from '../../library/slices/uiSlice.js';
 import { GENRES } from '../../library/json/booksData.js';
 import styles from '../../styles/components/page/AuthPage.module.css';
@@ -96,14 +96,19 @@ export function RegisterPage() {
     }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 700));
-    const res = attemptRegister({ name: fullName, email, password });
+    const res = await registerWithApi({ name: fullName, email, password });
     setLoading(false);
     if (!res.ok) {
       setError(res.error);
       return;
     }
-    const session = { ...res.session, genres };
-    dispatch(registerSuccess({ account: { ...res.account, genres }, session }));
+    const base = res.session || res.user || res.account || {};
+    const session = { ...base, genres };
+    const account = { ...base, genres, password };
+    dispatch(registerSuccess({ account, session }));
+    if (session.token) {
+      try { localStorage.setItem('bk-token', typeof session.token === 'string' ? session.token : JSON.stringify(session.token)); } catch (_) {}
+    }
     dispatch(pushToast({ message: 'Account verified — welcome to BOOKED', tone: 'success' }));
     navigate('/');
   };
