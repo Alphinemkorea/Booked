@@ -1,0 +1,11 @@
+"""Reusable schema validation messages for consistent API responses."""
+
+REQUIRED = "This field is required."
+INVALID_EMAIL = "Enter a valid email address."
+PRICE_NON_NEGATIVE = "price must be at least 0"
+STOCK_NON_NEGATIVE = "stock quantity must be at least 0"
+QUANTITY_MINIMUM = "quantity must be at least 1"
+INVALID_ROLE = "role must be either admin or user"
+INVALID_ORDER_STATUS = "status must be pending, approved, rejected, or completed"
+INVALID_LENDING_STATUS = "status must be requested, approved, rejected, or returned"
+INVALID_CART_TYPE = "cart type must be purchase or lending"
