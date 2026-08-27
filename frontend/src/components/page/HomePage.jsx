@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Clock, CreditCard, BookOpen, ArrowRight, Sparkles, Zap, Shield, Smartphone } from 'lucide-react';
+import { Clock, CreditCard, BookOpen, Library, ArrowRight, Sparkles, Zap, Shield, Smartphone, Mail, MapPin, Phone, HelpCircle, BookMarked, Store } from 'lucide-react';
 import { BookCard } from '../shared/BookCard.jsx';
 import { useAppSelector } from '../../library/storeHooks.js';
 import { formatKES } from '../../library/json/booksData.js';
@@ -106,6 +106,77 @@ export function HomePage() {
             <Shield size={16} /> No shipping · read in browser
           </span>
         </div>
+
+        {/* —— Brand story (top) —— */}
+        <section className={styles.storyBand} id="about" aria-labelledby="about-heading">
+          <div className={styles.storyInner}>
+            <div className={styles.storyCopy}>
+              <p className={styles.eyebrow}>About BOOKED</p>
+              <h2 id="about-heading" className={`serif ${styles.storyTitle}`}>
+                Own a book. Or borrow one.
+                <span className={styles.storyTitleMuted}> Read it here.</span>
+              </h2>
+              <p className={styles.storyLead}>
+                BOOKED is a digital bookstore and library for Kenya. Buy titles for keeps,
+                or request a timed loan — then read instantly in your browser. No shipping,
+                no waiting on a physical copy.
+              </p>
+              <div className={styles.storyPills}>
+                <span className={styles.pill}><Store size={14} /> Shop to own</span>
+                <span className={styles.pill}><Library size={14} /> Library to borrow</span>
+                <span className={styles.pill}><BookMarked size={14} /> Shelf to read</span>
+              </div>
+            </div>
+            <div className={styles.storyStats} role="list">
+              <div className={styles.stat} role="listitem">
+                <strong>Digital-only</strong>
+                <span>Access on web · nothing is mailed</span>
+              </div>
+              <div className={styles.stat} role="listitem">
+                <strong>M-Pesa</strong>
+                <span>Pay after approval with STK</span>
+              </div>
+              <div className={styles.stat} role="listitem">
+                <strong>Timed loans</strong>
+                <span>Access locks when the loan ends</span>
+              </div>
+              <div className={styles.stat} role="listitem">
+                <strong>Your shelf</strong>
+                <span>Purchases, loans & wishlist</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.howBand} id="how-it-works" aria-labelledby="how-heading">
+          <div className={styles.howHead}>
+            <p className={styles.eyebrow}>How it works</p>
+            <h2 id="how-heading" className={`serif ${styles.howTitle}`}>Four steps to your next chapter</h2>
+          </div>
+          <ol className={styles.howGrid}>
+            <li className={styles.howCard}>
+              <span className={styles.howNum}>01</span>
+              <h3>Discover</h3>
+              <p>Browse Shop or Library. Guests can sample; members unlock full actions.</p>
+            </li>
+            <li className={styles.howCard}>
+              <span className={styles.howNum}>02</span>
+              <h3>Bag a bag</h3>
+              <p>Purchase bag to own, or borrow bag to request a timed loan.</p>
+            </li>
+            <li className={styles.howCard}>
+              <span className={styles.howNum}>03</span>
+              <h3>Approve & pay</h3>
+              <p>When required, admins approve — then you complete payment with M-Pesa.</p>
+            </li>
+            <li className={styles.howCard}>
+              <span className={styles.howNum}>04</span>
+              <h3>Read on Shelf</h3>
+              <p>Open the reader for owned books anytime; loans until the due date.</p>
+            </li>
+          </ol>
+        </section>
+
 
         {continueList.length > 0 && (
           <section className={styles.continueSection}>
@@ -215,6 +286,7 @@ export function HomePage() {
           <p className={styles.forYouNote}>For you · based on {user.genres.slice(0, 3).join(', ')}</p>
         )}
 
+
         <section className={styles.railSection}>
           <div className={styles.sectionHead}>
             <h2 className="serif">For you</h2>
@@ -297,6 +369,62 @@ export function HomePage() {
             {newArrivals.map((b, i) => (
               <BookCard key={b.id} book={b} className={`delay-${Math.min(i, 9)}`} />
             ))}
+          </div>
+        </section>
+
+
+
+        <section className={styles.faqBand} id="faq" aria-labelledby="faq-heading">
+          <div className={styles.faqLayout}>
+            <div className={styles.faqIntro}>
+              <p className={styles.eyebrow}>FAQ</p>
+              <h2 id="faq-heading" className={`serif ${styles.howTitle}`}>Answers before you start</h2>
+              <p className={styles.storyLead}>Straight answers about digital access, shop vs library, and payments.</p>
+            </div>
+            <div className={styles.faqList}>
+              <details className={styles.faqItem} open>
+                <summary>Is BOOKED a physical library?</summary>
+                <p>No. BOOKED is digital-only. You read in the browser — nothing is shipped to your door.</p>
+              </details>
+              <details className={styles.faqItem}>
+                <summary>Shop vs Library — what is the difference?</summary>
+                <p>Shop: pay once and own the digital book on your shelf. Library: request a loan (often with a deposit) for a fixed number of days.</p>
+              </details>
+              <details className={styles.faqItem}>
+                <summary>Do I need an account?</summary>
+                <p>You can browse and sample as a guest. Buying, borrowing, wishlist, and full reading need a free account.</p>
+              </details>
+              <details className={styles.faqItem}>
+                <summary>How do payments work?</summary>
+                <p>After an order or loan is approved, pay with M-Pesa. You will get a prompt on your phone to enter your PIN.</p>
+              </details>
+              <details className={styles.faqItem}>
+                <summary>What happens when a loan ends?</summary>
+                <p>Access locks automatically. From My Shelf you can request a return so the deposit can be handled per policy.</p>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.contactBand} id="contact" aria-labelledby="contact-heading">
+          <div className={styles.contactInner}>
+            <div>
+              <p className={styles.eyebrowLight}>Contact</p>
+              <h2 id="contact-heading" className={`serif ${styles.contactTitle}`}>We are here to help</h2>
+              <p className={styles.contactLead}>
+                Orders, loans, or partnerships — write us. We usually reply within one business day.
+              </p>
+              <ul className={styles.contactList}>
+                <li><Mail size={18} aria-hidden /> <a href="mailto:hello@booked.ke">hello@booked.ke</a></li>
+                <li><Phone size={18} aria-hidden /> <a href="tel:+254700000000">+254 700 000 000</a></li>
+                <li><MapPin size={18} aria-hidden /> <span>Nairobi, Kenya</span></li>
+              </ul>
+            </div>
+            <div className={styles.contactCtas}>
+              <Link to="/register" className="btn btn-primary">Create free account</Link>
+              <Link to="/shop" className="btn btn-outline btn-ghost-light">Browse the shop</Link>
+              <a className="btn btn-ghost btn-ghost-light" href="mailto:hello@booked.ke?subject=BOOKED%20support">Email support</a>
+            </div>
           </div>
         </section>
 
