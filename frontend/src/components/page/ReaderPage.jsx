@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Minus, Plus, BookOpen, Lock, X, List } from 'lucide-react';
+import { ChevronLeft, ChevronRight, BookOpen, Lock, X, List } from 'lucide-react';
 import { useAppSelector } from '../../library/storeHooks.js';
 import { resolveBookAccess } from '../../library/helpers/readerAccess.js';
 import { getChapters } from '../../library/json/chapterContent.js';
