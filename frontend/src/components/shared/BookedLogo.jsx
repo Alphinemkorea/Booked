@@ -4,12 +4,10 @@ import { cn } from '../../library/helpers/cn.js';
 
 export function BookedLogo({ className, to = '/' }) {
   return (
-    <Link to={to} className={cn(styles.logo, className)} aria-label="BOOOKED home">
+    <Link to={to} className={cn(styles.logo, className)} aria-label="BOOKED home">
       <span className={styles.mark} aria-hidden>B</span>
       <span className={styles.textCol}>
-        <span className={styles.word}>
-          <span className={styles.wordAccent}>BOOOK</span>ED
-        </span>
+        <span className={styles.word}>BOOKED</span>
         <span className={styles.tag}>Digital bookstore</span>
       </span>
     </Link>

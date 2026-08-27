@@ -216,7 +216,7 @@ export function LoginPage() {
             </div>
 
             <p className={styles.footer}>
-              New to Boooked? <Link to="/register">Create an account</Link>
+              New to BOOKED? <Link to="/register">Create an account</Link>
             </p>
             <p className={styles.footer} style={{ marginTop: 12 }}>
               <Link to="/admin/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 800 }}>

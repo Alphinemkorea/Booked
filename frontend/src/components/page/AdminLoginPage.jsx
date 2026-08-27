@@ -43,7 +43,7 @@ export function AdminLoginPage() {
         </div>
         <h1 className={`serif ${styles.title}`}>Admin sign in</h1>
         <p className={styles.sub}>
-          Restricted access to the Boooked admin console. Only administrator accounts can continue.
+          Restricted access to the BOOKED admin console. Only administrator accounts can continue.
         </p>
 
         {error && (

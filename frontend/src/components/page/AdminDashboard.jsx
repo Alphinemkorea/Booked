@@ -48,7 +48,7 @@ export function AdminDashboard() {
             B
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: '1.05rem', letterSpacing: '-0.02em' }}>BOOOKED</div>
+            <div style={{ fontWeight: 800, fontSize: '1.05rem', letterSpacing: '-0.02em' }}>BOOKED</div>
             <div
               style={{
                 fontSize: 10,
