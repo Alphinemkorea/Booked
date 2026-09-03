@@ -9,6 +9,7 @@ import {
 import { pushToast } from '../../library/slices/uiSlice.js';
 import { formatKES, GENRES } from '../../library/json/booksData.js';
 import { HAS_API } from '../../library/config.js';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import styles from '../../styles/components/page/AdminDashboard.module.css';
 
 const empty = {
@@ -148,7 +149,7 @@ export function AdminBooks() {
             {books.map((b) => (
               <tr key={b.id}>
                 <td>
-                  <img src={b.cover} alt="" className="thumb-cover-sm" />
+                  <SafeImage src={b.cover} alt="" className="thumb-cover-sm" />
                 </td>
                 <td>
                   <strong>{b.title}</strong>

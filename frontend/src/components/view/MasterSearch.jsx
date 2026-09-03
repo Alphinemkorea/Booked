@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useAppSelector } from '../../library/storeHooks.js';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import styles from '../../styles/components/layout/Navbar.module.css';
 
 export function MasterSearch({ className }) {
@@ -39,7 +40,7 @@ export function MasterSearch({ className }) {
         <div className={styles.suggest} role="listbox">
           {results.map((b) => (
             <Link key={b.id} to={`/book/${b.id}`} className={styles.suggestItem} onMouseDown={(e) => e.preventDefault()}>
-              <img src={b.cover} alt="" className="thumb-cover-sm" />
+              <SafeImage src={b.cover} alt="" className="thumb-cover-sm" />
               <span className="u-truncate">{b.title}</span>
             </Link>
           ))}

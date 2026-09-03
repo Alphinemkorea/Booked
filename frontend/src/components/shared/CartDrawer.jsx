@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../library/storeHooks.js';
 import { closeDrawer, setPurchaseQty, removePurchase, removeLending, setLendingDays } from '../../library/slices/cartSlice.js';
 import { formatKES } from '../../library/json/booksData.js';
+import { SafeImage } from './SafeImage.jsx';
 import styles from '../../styles/components/page/CartPage.module.css';
 
 export function CartDrawer() {
@@ -34,7 +35,7 @@ export function CartDrawer() {
           {items.length === 0 && <p className="u-text-center u-muted">Your cart is empty.</p>}
           {items.map((i) => (
             <div key={i.bookId} className={styles.line}>
-              <img src={i.cover} alt="" className="thumb-cover" />
+              <SafeImage src={i.cover} alt="" className="thumb-cover" />
               <div className={styles.lineInfo}>
                 <div className={styles.lineTitle}>{i.title}</div>
                 <div className={styles.lineMeta}>

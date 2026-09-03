@@ -1,5 +1,6 @@
 import styles from '../../styles/components/shared/Avatar.module.css';
 import { cn } from '../../library/helpers/cn.js';
+import { SafeImage } from './SafeImage.jsx';
 
 export function Avatar({ user, size = 40, className, editable, onPick }) {
   const name = user?.name || 'U';
@@ -9,7 +10,7 @@ export function Avatar({ user, size = 40, className, editable, onPick }) {
   return (
     <span className={cn(styles.wrap, className)} style={{ '--avatar-size': `${dim}px` }}>
       {user?.avatar ? (
-        <img src={user.avatar} alt={name} className={styles.img} />
+        <SafeImage src={user.avatar} alt={name} className={styles.img} />
       ) : (
         <span className={styles.fallback} aria-label={name}>{initial}</span>
       )}

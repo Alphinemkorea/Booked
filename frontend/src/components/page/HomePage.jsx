@@ -4,6 +4,7 @@ import { BookCard } from '../shared/BookCard.jsx';
 import { useAppSelector } from '../../library/storeHooks.js';
 import { formatKES } from '../../library/json/booksData.js';
 import { getContinueReading, getProgress } from '../../library/helpers/readingProgress.js';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import styles from '../../styles/components/page/HomePage.module.css';
 
 export function HomePage() {
@@ -88,7 +89,7 @@ export function HomePage() {
           </div>
           {featured.cover && (
             <div className={styles.heroCoverCard}>
-              <img src={featured.cover} alt="" />
+              <SafeImage src={featured.cover} alt="" />
             </div>
           )}
         </div>
@@ -183,7 +184,7 @@ export function HomePage() {
             <h2 className="serif">Continue reading</h2>
             {continueList.map(({ book, pct, chapter }) => (
               <Link key={book.id} to={`/read/${book.id}`} className="continue-card">
-                <img src={book.cover} alt="" />
+                <SafeImage src={book.cover} alt="" />
                 <div className="u-flex-1">
                   <strong className="u-block">{book.title}</strong>
                   <span className="u-fs-13 u-muted">
@@ -342,7 +343,7 @@ export function HomePage() {
             {trending.map((b, i) => (
               <li key={b.id} className="card rank-item">
                 <span className="rank-num">{i + 1}</span>
-                <img src={b.cover} alt="" className="thumb-cover-sm" />
+                <SafeImage src={b.cover} alt="" className="thumb-cover-sm" />
                 <div className="u-flex-1">
                   <Link to={`/book/${b.id}`}>
                     <strong>{b.title}</strong>
