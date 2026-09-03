@@ -355,7 +355,7 @@ export function ShelfPage() {
                 ]
               : []
         }
-        accountRef={payTarget?.id || 'BOOKED'}
+        accountRef={payTarget?.id || 'BOOOKED'}
         onSuccess={onPaySuccess}
       />
     </div>
