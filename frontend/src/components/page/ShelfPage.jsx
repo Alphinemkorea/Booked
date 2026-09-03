@@ -9,6 +9,7 @@ import { StatusChip } from '../shared/StatusChip.jsx';
 import { EmptyState } from '../shared/EmptyState.jsx';
 import { MpesaPaymentModal } from '../shared/MpesaPaymentModal.jsx';
 import { BookCard } from '../shared/BookCard.jsx';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import { getLoanAccess } from '../../library/helpers/readerAccess.js';
 
 export function ShelfPage() {
@@ -184,7 +185,7 @@ export function ShelfPage() {
                 {owned.map((o) => (
                   <article key={`own-${o.id}`} className="card" style={{ padding: 16, marginBottom: 10, display: 'flex', gap: 14, alignItems: 'center' }}>
                     {o.items?.[0]?.cover && (
-                      <img src={o.items[0].cover} alt="" style={{ width: 48, height: 68, objectFit: 'cover', borderRadius: 6 }} />
+                      <SafeImage src={o.items[0].cover} alt="" style={{ width: 48, height: 68, objectFit: 'cover', borderRadius: 6 }} />
                     )}
                     <div style={{ flex: 1 }}>
                       <strong>{(o.items || []).map((i) => i.title).join(', ')}</strong>
@@ -226,7 +227,7 @@ export function ShelfPage() {
                 const days = l.dueAt ? Math.ceil((l.dueAt - Date.now()) / 86400000) : null;
                 return (
                   <article key={l.id} className="card" style={{ padding: 18, marginBottom: 12, display: 'flex', gap: 14 }}>
-                    {l.cover && <img src={l.cover} alt="" style={{ width: 56, height: 80, objectFit: 'cover', borderRadius: 6 }} />}
+                    {l.cover && <SafeImage src={l.cover} alt="" style={{ width: 56, height: 80, objectFit: 'cover', borderRadius: 6 }} />}
                     <div style={{ flex: 1 }}>
                       <strong>{l.title}</strong>
                       <p style={{ color: 'var(--muted)', fontSize: 14, margin: '2px 0 8px' }}>{l.author}</p>

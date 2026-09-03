@@ -6,6 +6,7 @@ import { addPurchaseOrder, addLoan } from '../../library/slices/ordersSlice.js';
 import { pushToast } from '../../library/slices/uiSlice.js';
 import { formatKES } from '../../library/json/booksData.js';
 import { MpesaPaymentModal } from '../shared/MpesaPaymentModal.jsx';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import { CreditCard, Smartphone, ShieldCheck, Lock, ChevronRight } from 'lucide-react';
 
 const PAY_METHODS = [
@@ -195,7 +196,7 @@ export function CheckoutPage() {
                   alignItems: 'center',
                 }}
               >
-                <img src={i.cover} alt="" style={{ width: 56, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                <SafeImage src={i.cover} alt="" style={{ width: 56, height: 80, objectFit: 'cover', borderRadius: 8 }} />
                 <div style={{ flex: 1 }}>
                   <strong style={{ fontSize: '1.05rem' }}>{i.title}</strong>
                   <p style={{ margin: '2px 0', color: 'var(--muted)' }}>{i.author}</p>

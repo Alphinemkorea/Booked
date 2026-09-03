@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../library/storeHooks.js';
 import { removePurchase, removeLending } from '../../library/slices/cartSlice.js';
 import { formatKES } from '../../library/json/booksData.js';
 import { EmptyState } from '../shared/EmptyState.jsx';
+import { SafeImage } from '../shared/SafeImage.jsx';
 import styles from '../../styles/components/page/CartPage.module.css';
 
 export function CartPage() {
@@ -25,7 +26,7 @@ export function CartPage() {
           <>
             {purchase.map((i) => (
               <div key={i.bookId} className={styles.row}>
-                <img src={i.cover} alt="" className="thumb-cover" />
+                <SafeImage src={i.cover} alt="" className="thumb-cover" />
                 <div className="u-flex-1">
                   <strong>{i.title}</strong>
                   <div className="u-muted u-fs-13">× {i.qty || 1}</div>
@@ -51,7 +52,7 @@ export function CartPage() {
           <>
             {lending.map((i) => (
               <div key={i.bookId} className={styles.row}>
-                <img src={i.cover} alt="" className="thumb-cover" />
+                <SafeImage src={i.cover} alt="" className="thumb-cover" />
                 <div className="u-flex-1">
                   <strong>{i.title}</strong>
                   <div className="u-muted u-fs-13">{i.duration || 14} days · deposit</div>
