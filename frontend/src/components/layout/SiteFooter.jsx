@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BookedLogo } from '../shared/BookedLogo.jsx';
-import { Mail, MapPin, Twitter, Instagram } from "lucide-react";
+import { Mail, MapPin, Globe } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -24,8 +24,8 @@ export function SiteFooter() {
           </p>
           <div style={{ display: 'flex', gap: 10 }}>
             {[
-              ['https://twitter.com', Twitter],
-              ['https://instagram.com', Instagram],
+              ['https://twitter.com', Globe],
+              ['https://instagram.com', Globe],
               ['mailto:hello@booked.ke', Mail],
             ].map(([href, Icon]) => (
               <a key={href} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
