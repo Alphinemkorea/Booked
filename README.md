@@ -27,7 +27,7 @@ A full-stack online bookstore and library application.
 
 ## Development
 
-gitflow workfolw configured for the booked project
+gitflow workflow configured for the booked project
 
 
 More setup instructions will be added during development.
