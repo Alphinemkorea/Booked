@@ -1,36 +1,43 @@
-import styles from '../../styles/components/shared/Avatar.module.css';
-import { cn } from '../../library/helpers/cn.js';
 import { SafeImage } from './SafeImage.jsx';
 
-export function Avatar({ user, size = 40, className, editable, onPick }) {
+export function Avatar({ user, size = 40, className }) {
   const name = user?.name || 'U';
   const initial = name[0]?.toUpperCase() || 'U';
   const dim = typeof size === 'number' ? size : 40;
-
+  if (user?.avatar) {
+    return (
+      <img
+        src={user.avatar}
+        alt={name}
+        className={className}
+        style={{
+          width: dim,
+          height: dim,
+          borderRadius: '50%',
+          objectFit: 'cover',
+          border: '2px solid color-mix(in srgb, var(--primary) 30%, transparent)',
+        }}
+      />
+    );
+  }
   return (
-    <span className={cn(styles.wrap, className)} style={{ '--avatar-size': `${dim}px` }}>
-      {user?.avatar ? (
-        <SafeImage src={user.avatar} alt={name} className={styles.img} />
-      ) : (
-        <span className={styles.fallback} aria-label={name}>{initial}</span>
-      )}
-      {editable && (
-        <label className={styles.camera} title="Upload photo">
-          <input
-            type="file"
-            accept="image/*"
-            className="u-sr-only"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (!file || !onPick) return;
-              const reader = new FileReader();
-              reader.onload = () => onPick(String(reader.result || ''));
-              reader.readAsDataURL(file);
-            }}
-          />
-          ✎
-        </label>
-      )}
+    <span
+      className={className}
+      style={{
+        width: dim,
+        height: dim,
+        borderRadius: '50%',
+        background: 'var(--primary)',
+        color: '#fff',
+        display: 'grid',
+        placeItems: 'center',
+        fontWeight: 800,
+        fontSize: dim * 0.4,
+        flexShrink: 0,
+      }}
+      aria-label={name}
+    >
+      {initial}
     </span>
   );
 }
